@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vla-reasoner"
+version = "0.1.0"
+description = "Official implementation of VLA-Reasoner: test-time online MCTS for frozen Vision-Language-Action models"
+readme = "README.md"
+license = "Apache-2.0 AND MIT"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+requires-python = ">=3.9"
+authors = [{ name = "Wenkai Guo" }, { name = "Guanxing Lu" }]
+dependencies = ["numpy>=1.22"]
+
+[project.optional-dependencies]
+# value function (Sec. III-D) and the iVideoGPT adapter
+torch = ["torch>=2.0", "torchvision>=0.15", "pillow"]
+# experiment scripts (flags, videos)
+scripts = ["absl-py>=1.0", "imageio>=2.9", "imageio-ffmpeg", "pillow"]
+# dataset readers
+libero = ["h5py"]
+bridge = ["tensorflow", "tensorflow-datasets"]
+# pi0-FAST client (real world)
+openpi = [
+    "openpi-client @ git+https://github.com/Physical-Intelligence/openpi.git@215abfb217dbac7d5f1273282331b9b1866c0479#subdirectory=packages/openpi-client",
+]
+dev = ["pytest", "torch>=2.0", "torchvision>=0.15", "h5py", "absl-py>=1.0", "pillow"]
+
+[project.urls]
+"Project page" = "https://wkguo.github.io/VLA-Reasoner/"
+Paper = "https://arxiv.org/abs/2509.22643"
+
+[tool.setuptools.packages.find]
+include = ["vla_reasoner*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

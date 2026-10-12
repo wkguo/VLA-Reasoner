@@ -1,0 +1,6 @@
+# SimplerEnv WidowX + SpatialVLA-4B; 4-action chunks executed per query (paper Sec. IV-A).
+--flagfile=experiments/configs/reasoner_default.flags
+--policy=spatialvla
+--model_name=IPEC-COMMUNITY/spatialvla-4b-224-pt
+--exec_chunk=4
+--num_eval_episodes=100

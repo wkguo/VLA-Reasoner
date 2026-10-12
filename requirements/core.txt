@@ -1,0 +1,10 @@
+# VLA-Reasoner core + value function + experiment scripts (CPU tests run with these)
+numpy>=1.22
+torch>=2.0
+torchvision>=0.15
+pillow
+absl-py>=1.0
+imageio>=2.9
+imageio-ffmpeg
+h5py
+pytest

@@ -1,0 +1,23 @@
+# LIBERO + OpenVLA-SFT environment (pins from openvla/openvla@c8f03f4 pyproject.toml and
+# experiments/robot/libero/libero_requirements.txt). Install LIBERO from source first:
+#   git clone https://github.com/Lifelong-Robot-Learning/LIBERO.git && cd LIBERO && git checkout 8f1084e && pip install -e .
+torch==2.2.0
+torchvision==0.17.0
+transformers==4.40.1
+tokenizers==0.19.1
+timm==0.9.10
+accelerate>=0.25.0
+sentencepiece==0.1.99
+tensorflow==2.15.0
+imageio[ffmpeg]
+robosuite==1.4.1
+bddl
+easydict
+cloudpickle
+gym
+absl-py
+h5py
+# iVideoGPT world model (imported from --ivideogpt_root at evaluation time)
+diffusers==0.27.0
+huggingface_hub<0.26  # diffusers 0.27.0 imports huggingface_hub.cached_download, removed in huggingface_hub 0.26
+# optional, as in OpenVLA's README (install after torch): flash-attn==2.5.5

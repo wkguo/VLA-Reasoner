@@ -1,0 +1,4 @@
+# Real robot + OpenVLA-7B fine-tuned on the real-robot demonstrations; 1 action per query (scene camera only).
+--flagfile=experiments/configs/reasoner_default.flags
+--policy=openvla
+--action_dim=7

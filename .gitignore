@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Experiment outputs (root-level directories only; vla_reasoner/data/ is source code)
+/logs/
+/experiments/logs/
+/rollouts/
+/checkpoints/
+/data/
+/videos/
+/wandb/
+/outputs/
+*.mp4
+*.gif
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npz
+*.hdf5

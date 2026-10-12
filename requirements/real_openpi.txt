@@ -1,0 +1,3 @@
+# Real-robot client for pi0-FAST: only the lightweight openpi client is needed on the robot side.
+openpi-client @ git+https://github.com/Physical-Intelligence/openpi.git@215abfb217dbac7d5f1273282331b9b1866c0479#subdirectory=packages/openpi-client
+absl-py

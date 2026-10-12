@@ -1,0 +1,6 @@
+# LIBERO + OpenVLA-SFT (openvla/openvla-7b-finetuned-libero-{spatial,object,goal,10}); 1 action per query.
+--flagfile=experiments/configs/reasoner_default.flags
+--center_crop=true
+--num_trials_per_task=50
+--num_steps_wait=10
+--seed=7

@@ -1,0 +1,23 @@
+# World-model fine-tuning / inference with thuml/iVideoGPT (pinned to d601d5c). The == pins are iVideoGPT's own
+# requirements.txt, plus the huggingface_hub bound that diffusers 0.27.0 needs; the remaining packages are
+# imported by its training code but not pinned upstream.
+#   git clone https://github.com/thuml/iVideoGPT.git && (cd iVideoGPT && git checkout d601d5c)
+torch==2.2.1
+torchvision==0.17.1
+tensorflow==2.15.0
+tensorflow-datasets==4.9.3
+transformers==4.38.2
+diffusers==0.27.0
+huggingface_hub<0.26  # diffusers 0.27.0 imports huggingface_hub.cached_download, removed in huggingface_hub 0.26
+imageio==2.9.0
+imageio-ffmpeg==0.4.4
+accelerate
+safetensors
+peft
+datasets
+opencv-python
+lpips
+piqa
+psutil
+pyyaml
+scipy

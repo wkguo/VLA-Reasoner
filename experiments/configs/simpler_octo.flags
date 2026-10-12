@@ -1,0 +1,6 @@
+# SimplerEnv WidowX + Octo-Small; 1 (temporally ensembled) action per query.
+--flagfile=experiments/configs/reasoner_default.flags
+--policy=octo
+--model_name=octo-small
+--exec_chunk=1
+--num_eval_episodes=100

@@ -1,0 +1,5 @@
+# Real robot + pi0-FAST served by openpi; 5 actions of each chunk executed per query (paper Sec. IV-B).
+--flagfile=experiments/configs/reasoner_default.flags
+--policy=pi0_fast
+--exec_chunk=5
+--action_dim=7

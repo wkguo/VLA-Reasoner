@@ -1,0 +1,17 @@
+# SimplerEnv + SpatialVLA environment. Install DelinQu/SimplerEnv-OpenVLA from source (pinned to ccfe380):
+#   git clone --recurse-submodules https://github.com/DelinQu/SimplerEnv-OpenVLA.git
+#   (cd SimplerEnv-OpenVLA && git checkout ccfe380 && git submodule update --init)
+#   pip install -e SimplerEnv-OpenVLA/ManiSkill2_real2sim && pip install -e SimplerEnv-OpenVLA
+# SpatialVLA requires transformers >= 4.47 (pins below from SpatialVLA/SpatialVLA requirements.txt).
+torch==2.5.1
+torchvision==0.20.1
+transformers==4.47.0
+tokenizers==0.21.0
+accelerate==1.0.1
+numpy==1.26.4
+transforms3d
+absl-py
+imageio
+# iVideoGPT world model (imported from --ivideogpt_root at evaluation time)
+diffusers==0.27.0
+huggingface_hub<0.26  # diffusers 0.27.0 imports huggingface_hub.cached_download, removed in huggingface_hub 0.26
