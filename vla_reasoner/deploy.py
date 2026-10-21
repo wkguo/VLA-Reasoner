@@ -1,12 +1,4 @@
-"""Robot-agnostic deployment loop for real-world runs (paper Sec. IV-B; no hardware drivers are included).
-
-Implement `Robot` for your arm (the paper used a Galaxea-A1 with a side camera and a wrist camera). Per step
-the robot returns a dict with
-    "policy_input": the observation dict the VLA expects (e.g. openpi keys, or {"full_image": ...} for OpenVLA)
-    "frame":        (H, W, 3) uint8 image of the camera the world model / value function were trained on.
-`apply_action` receives one raw action of the VLA's action space and must perform any robot-specific
-post-processing (unnormalization, gripper mapping, safety limits).
-"""
+"""Robot-agnostic real-world control loop with an optional reasoner."""
 
 from __future__ import annotations
 

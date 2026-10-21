@@ -1,19 +1,5 @@
-"""BridgeData V2 episodes from the RLDS/TFDS release (rail.eecs.berkeley.edu/datasets/bridge_release/data/tfds),
-used by the SimplerEnv WidowX experiments (Octo-Small and SpatialVLA were trained on Bridge).
-
-The KDE and the world model must live in the same action space as the VLA's raw output, so we reproduce the
-dataset transforms of the respective training pipelines in numpy:
-  * "octo"        -- octo `bridge_dataset_transform`: binarize the gripper, then relabel the 6 arm dims with
-                     reached-state differences and drop the last step (octo/data/utils/data_utils.py,
-                     `binarize_gripper_actions`, `relabel_actions`; nakamotoo/octo@38b9b76).
-  * "bridge_orig" -- OpenVLA / SpatialVLA `bridge_orig_dataset_transform`: additionally drop the first
-                     (all-zero) step before the above (openvla@c8f03f4, SpatialVLA data/oxe/transforms.py).
-  * "raw"         -- the stored actions.
-tensorflow / tensorflow_datasets are imported lazily.
-
-Portions adapted from Octo, Copyright (c) 2023 Robotic AI & Learning Lab Berkeley, MIT License
-(see THIRD_PARTY_NOTICES.md).
-"""
+"""BridgeData V2 episodes from the RLDS release, with the action transforms of Octo and OpenVLA."""
+# Portions adapted from Octo (Copyright (c) 2023 Robotic AI & Learning Lab Berkeley, MIT); see THIRD_PARTY_NOTICES.md.
 
 from __future__ import annotations
 

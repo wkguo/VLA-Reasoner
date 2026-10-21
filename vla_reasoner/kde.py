@@ -1,25 +1,4 @@
-"""Gaussian kernel density estimate over (flattened) actions -- paper Sec. III-C, Eq. 6.
-
-    pi_KDE(a) = 1/N * sum_i K_h(a - a_i),   K = Gaussian kernel, bandwidth h.
-
-The KDE is fit on the actions of the same offline dataset that was used to fine-tune the VLA.
-Action chunks are treated as single samples by flattening them (Sec. III-C, last paragraph).
-
-Implementation notes (see README):
-  * Optional per-dimension standardization z = (a - mean) / std before fitting. The kernel is
-    isotropic in z-space, i.e. diagonal with per-dimension width h * std_j in action space.
-    Densities returned by `log_density` are always in the *original* action space (the constant
-    Jacobian -sum_j log std_j is included), so they are proper densities either way.
-    Dimensions whose empirical std is below `min_std` (constant in the data) are clamped to
-    std = min_std, so samples keep the data's constant value there, and they are left out of the
-    Top-k distance, so a small deviation of the reference action in such a dimension cannot
-    dominate the neighbour search.
-  * Bandwidth h: Scott's rule n^(-1/(d+4)), Silverman's rule (n(d+2)/4)^(-1/(d+4)) (both in
-    standardized units), or a manual float.
-  * All densities are computed in log-space with a streaming logsumexp for numerical stability.
-
-Only numpy is required.
-"""
+"""Gaussian kernel density estimate over flattened actions (Eq. 6) with Top-k sampling."""
 
 from __future__ import annotations
 

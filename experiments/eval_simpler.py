@@ -1,19 +1,5 @@
-"""SimplerEnv (WidowX) evaluation of Octo / SpatialVLA with and without VLA-Reasoner (paper Table I, bottom).
-
-The episode loop follows SimplerEnv's example (`simpler_env.make`, step until success or truncation, read
-`episode_stats` from the last info); the script structure (absl flags, per-episode videos, per-task log files)
-follows V-GPS's experiments/eval_vgps.py (nakamotoo/V-GPS@912a290). The reasoner edits the raw policy action
-before SimplerEnv's post-processing.
-
-Portions adapted from SimplerEnv, Copyright (c) 2024 simpler-env, MIT License (see THIRD_PARTY_NOTICES.md).
-
-Environments: Octo needs nakamotoo/SimplerEnv@f343c82 + nakamotoo/octo@38b9b76 (as V-GPS); SpatialVLA needs
-DelinQu/SimplerEnv-OpenVLA (transformers >= 4.47). See README.
-
-Example:
-    python experiments/eval_simpler.py --policy=octo --model_name=octo-small \
-        --task_name=widowx_stack_cube --num_eval_episodes=100 --flagfile=experiments/configs/simpler_octo.flags
-"""
+"""SimplerEnv WidowX evaluation of Octo and SpatialVLA with and without VLA-Reasoner."""
+# Portions adapted from SimplerEnv (Copyright (c) 2024 simpler-env, MIT); see THIRD_PARTY_NOTICES.md.
 
 import os
 
@@ -37,14 +23,6 @@ flags.DEFINE_string("save_rollouts_dir", "", "If set, save every episode as npz 
 common.define_reasoner_flags()
 
 
-def widowx_raw_to_env(a: np.ndarray) -> np.ndarray:
-    """Stateless raw -> env action conversion (no sticky gripper). Only used by the DEBUG oracle."""
-    from transforms3d.euler import euler2axangle
-
-    ax, angle = euler2axangle(*np.asarray(a[3:6], dtype=np.float64))
-    return np.concatenate([a[:3], ax * angle, [2.0 * (a[6] > 0.5) - 1.0]])
-
-
 def _tally(successes, grasps) -> str:
     """Running counts, e.g. 'success 37/100 (0.370), grasp 52/100' (grasp only on tasks that report it)."""
     n = len(successes)
@@ -65,12 +43,7 @@ def main(_):
         policy_setup, sticky_steps = "widowx_bridge", 3
     exec_chunk = FLAGS.exec_chunk or (1 if FLAGS.policy == "octo" else 4)
 
-    def oracle_factory():  # DEBUG ONLY, not the paper's method
-        from vla_reasoner.world_model.oracle import maniskill2_oracle
-
-        return maniskill2_oracle(env, widowx_raw_to_env, get_image_from_maniskill2_obs_dict, action_dim=7)
-
-    reasoner = common.build_reasoner(flat_action_dim=7 * exec_chunk, oracle_factory=oracle_factory)
+    reasoner = common.build_reasoner(flat_action_dim=7 * exec_chunk)
     if FLAGS.policy == "octo":
         import tensorflow as tf
 

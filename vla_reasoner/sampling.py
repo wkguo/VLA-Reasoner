@@ -1,14 +1,4 @@
-"""Candidate samplers for the MCTS expansion step (Alg. 1 line 3).
-
-A sampler maps a reference action a_d (the action of the node being expanded) to k candidate
-actions plus their log-densities. The log-densities are turned into visit-count pseudo-counts
-(Sec. III-C: N(a) proportional to p(a)) by `vla_reasoner.mcts.pseudo_counts`.
-
-  * KDETopKSampler       -- VLA-Reasoner's expansion: N samples from pi_KDE, keep the k nearest
-                            (Sec. III-B(a), Eq. 2).
-  * GaussianNoiseSampler -- ablation "Gaussian noise" (Sec. IV-C, Fig. 6 left): add Gaussian noise to the
-                            reference action. Its pseudo-counts come from the Gaussian noise density.
-"""
+"""Candidate samplers for the expansion step: KDE Top-k and the Gaussian-noise ablation."""
 
 from __future__ import annotations
 

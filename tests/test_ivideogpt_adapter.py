@@ -1,9 +1,4 @@
-"""Bookkeeping of the iVideoGPT adapter (token/embedding sequences per tree node) with small fakes.
-
-The fakes mimic upstream's sequence-length contract (context: 257 tokens per frame incl. separators;
-dynamics: slot + 16 tokens per frame; `detokenize` asserts the same length invariant as upstream). They do NOT
-exercise the real iVideoGPT networks or HF `generate`, which need the released weights.
-"""
+"""Token and embedding bookkeeping of the iVideoGPT adapter, tested with small fakes."""
 
 from types import SimpleNamespace
 
@@ -34,11 +29,10 @@ class FakeTokenizer:
 
 
 class FakeLLM:
-    def generate(self, inputs_embeds, max_new_tokens, output_hidden_states=False, **kwargs):
-        b, _, e = inputs_embeds.shape
+    def generate(self, inputs_embeds, max_new_tokens, **kwargs):
+        b = inputs_embeds.shape[0]
         tok = inputs_embeds[:, -1, 0].round().clamp(0, 9).long()  # token = sum of the injected action
-        hidden = tuple((torch.zeros(b, 1, e), torch.ones(b, 1, e)) for _ in range(max_new_tokens))
-        return SimpleNamespace(sequences=tok[:, None].expand(b, max_new_tokens), hidden_states=hidden)
+        return SimpleNamespace(sequences=tok[:, None].expand(b, max_new_tokens))
 
 
 class FakeHead(torch.nn.Module):
@@ -52,21 +46,17 @@ class FakeHead(torch.nn.Module):
             self.action_linear.weight.zero_()
             self.action_linear.weight[0] = 1.0  # first embedding coordinate = sum(action)
             self.action_linear.bias.zero_()
-        self.reward_linear = torch.nn.Linear(e, 1)
-        with torch.no_grad():
-            self.reward_linear.weight.fill_(0.5)
-            self.reward_linear.bias.zero_()
         self.token_for_sdf = 31
 
     def get_input_embeddings(self, ids):
         return self.emb(ids)
 
 
-def make_wm(reward_head=False):
+def make_wm():
     wm = IVideoGPTWorldModel.__new__(IVideoGPTWorldModel)  # skip loading real weights
     wm._torch, wm.context_length, wm.segment_length, wm.resolution = torch, 2, 12, 8
     wm.device, wm.temperature, wm.top_k = torch.device("cpu"), 1.0, 100
-    wm.reward_head, wm.max_batch, wm._warned_depth = reward_head, None, False
+    wm.max_batch, wm._warned_depth = None, False
     wm.tokenizer, wm.model = FakeTokenizer(), FakeHead(action_dim=2)
     return wm
 
@@ -85,12 +75,12 @@ def test_branching_sequences_and_frames():
     assert torch.equal(grand.context_tokens, root.context_tokens)
 
 
-def test_reward_head_and_max_batch():
-    wm = make_wm(reward_head=True)
+def test_max_batch():
+    wm = make_wm()
     wm.max_batch = 1
     root = wm.init_state([np.zeros((8, 8, 3), np.uint8)] * 2)
     kids = wm.predict(root, np.array([[1.0, 0.0], [2.0, 0.0], [3.0, 0.0]]))
-    assert len(kids) == 3 and all(k.reward == pytest.approx(2.0) for k in kids)  # 0.5 * sum(ones(4))
+    assert len(kids) == 3 and [int(k.frame[0, 0, 0]) for k in kids] == [round(255 * v) for v in (0.1, 0.2, 0.3)]
 
 
 def test_plugs_into_mcts():

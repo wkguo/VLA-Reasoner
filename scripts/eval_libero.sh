@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# LIBERO (Table I top): OpenVLA-SFT with and without VLA-Reasoner, 500 episodes per suite.
+# LIBERO evaluation of OpenVLA-SFT with and without VLA-Reasoner, 500 episodes per suite.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 export CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}

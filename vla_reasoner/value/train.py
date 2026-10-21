@@ -1,7 +1,4 @@
-"""Training loop for the value head (Sec. III-D, Eq. 7): frozen ResNet-34 features + MSE on progress labels.
-
-Because the encoder is frozen, features are extracted once and only the 2-layer MLP is optimized.
-"""
+"""Training loop of the value head."""
 
 from __future__ import annotations
 

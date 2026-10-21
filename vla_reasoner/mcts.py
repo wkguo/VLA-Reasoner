@@ -1,27 +1,4 @@
-"""Online Monte Carlo Tree Search of VLA-Reasoner (paper Sec. III-B, Algorithm 1, Eqs. 2, 4, 5).
-
-Algorithm 1:
-
-    o(0): s(0) <- s_t, a(0) <- a_t^VLA
-    for d = 0 .. MaxDepth:                          # inclusive: MaxDepth + 1 expansions
-        A^Top-k <- TopK(pi_KDE, a(d))               # Expansion, Eq. 2
-        for a in A^Top-k:
-            s_hat <- W(s(d), a)                     # Simulation, Eq. 3 (batched over A^Top-k)
-            v_hat <- MLP(s_hat)                     # Evaluation        (batched over A^Top-k)
-            Update(o(d), v_hat)                     # Backpropagation, Eq. 4, from o(d) up to the root
-        o(d) <- SelectUCB(o(d))                     # Selection, Eq. 5: the child expanded next
-        a(d) <- a(o(d))
-    a^Reasoner <- argmax_{o_i in children(root)} Q(o_i)
-
-Visit counts (Eq. 4 and Sec. III-C) are not obtained by repeated simulation; they are pseudo-counts derived
-from the KDE density, N(a) proportional to p_KDE(a). Per expansion we normalize the k sibling densities to
-n_j = k * p_j / sum_l p_l, so an expanded node has N(o_i) = sum_{a in A^Top-k_i} N(a) = k. The Q backup of
-Eq. 4 is invariant to the scale of the counts but Eq. 5 is not, hence this normalization. A leaf's count is
-the pseudo-count of the action that created it, N(a_i).
-The root's own value is never evaluated by Algorithm 1, so the root has no self term in Eq. 4.
-
-Only numpy is required.
-"""
+"""Online Monte Carlo tree search of Algorithm 1 (Eqs. 4 and 5)."""
 
 from __future__ import annotations
 

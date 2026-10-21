@@ -1,4 +1,4 @@
-"""Value training samples from successful demonstrations (Sec. III-D): down-sampled frames + linear labels."""
+"""Cached-feature dataset for training the value head."""
 
 from __future__ import annotations
 

@@ -1,24 +1,5 @@
-"""Action-conditioned world model W on top of the official iVideoGPT code (Wu et al., NeurIPS 2024).
-
-The paper follows the iVideoGPT architecture (~600M parameters; Sec. IV-A) and embeds robot actions into its
-latent space (Sec. III-B(b)). iVideoGPT is used as an external dependency (github.com/thuml/iVideoGPT, pinned to
-commit d601d5c in requirements/ivideogpt.txt); it is not vendored. Put the repository on PYTHONPATH or pass
-`ivideogpt_root`.
-
-One simulation step W(s, a) follows the per-step rollout of upstream `mbrl/video_predictor.py`
-(`VideoPredictor.rollout`):
-  1. the real context frames are tokenized by the compressive tokenizer (16x16 tokens + 1 separator each);
-  2. the action is embedded by the transformer's `action_linear` and added to the embedding of the slot token
-     that precedes the next frame's tokens (`HeadModelWithAction`);
-  3. 16 dynamics tokens (+1 slot) are sampled (top-k sampling, as upstream);
-  4. the new frame is decoded from the context tokens + the 16 new tokens.
-Each tree node keeps its own embedding sequence, so all children of a node share the parent's prefix. With
-`reward_head=True` the scalar of the transformer's `reward_linear` head is attached to each state (ablation
-"token reward head"; see `vla_reasoner.value.base.TokenRewardValue`).
-
-Portions adapted from iVideoGPT, Copyright (c) 2024 THUML @ Tsinghua University, MIT License
-(see THIRD_PARTY_NOTICES.md).
-"""
+"""Action-conditioned world model built on iVideoGPT."""
+# Portions adapted from iVideoGPT (Copyright (c) 2024 THUML @ Tsinghua University, MIT); see THIRD_PARTY_NOTICES.md.
 
 from __future__ import annotations
 
@@ -42,7 +23,6 @@ class IVideoGPTState:
     embeds: Any  # torch (1, L, E): input embeddings, ending with the slot where the next action is added
     context_tokens: Any  # torch (1, CONTEXT_TOKENS_PER_FRAME * context_length) tokens of the real context
     frame: np.ndarray  # (R, R, 3) uint8, last (real or predicted) frame
-    reward: Optional[float] = None
     depth: int = 0
 
 
@@ -59,7 +39,6 @@ class IVideoGPTWorldModel(WorldModel):
         device: str = "cuda",
         temperature: float = 1.0,
         top_k: int = 100,
-        reward_head: bool = False,
         ivideogpt_root: Optional[str] = None,
         max_batch: Optional[int] = None,
     ):
@@ -88,7 +67,6 @@ class IVideoGPTWorldModel(WorldModel):
         self.resolution = resolution
         self.device = torch.device(device)
         self.temperature, self.top_k = temperature, top_k
-        self.reward_head = reward_head
         self.max_batch = max_batch
         self._warned_depth = False
 
@@ -105,7 +83,6 @@ class IVideoGPTWorldModel(WorldModel):
             context=context_length,
             segment_length=segment_length,
             model_type=config.model_type,
-            reward_prediction=reward_head,
         )
         weights = transformer_path
         if os.path.isdir(weights):
@@ -175,12 +152,8 @@ class IVideoGPTWorldModel(WorldModel):
                 use_cache=True,
                 max_new_tokens=DYNAMICS_TOKENS_PER_FRAME + 1,
                 return_dict_in_generate=True,
-                output_hidden_states=self.reward_head,
             )
             new_tokens = result.sequences[:, :-1]  # the last sampled token is replaced by the slot token
-            rewards = None
-            if self.reward_head:  # as in upstream VideoPredictor.rollout
-                rewards = self.model.reward_linear(result.hidden_states[-1][-1]).reshape(b).float().cpu().numpy()
             slot = torch.full((b, 1), self.model.token_for_sdf, dtype=new_tokens.dtype, device=self.device)
             next_embeds = torch.cat([embeds, self.model.get_input_embeddings(torch.cat([new_tokens, slot], 1))], 1)
             decoded = self.tokenizer.detokenize(
@@ -192,7 +165,6 @@ class IVideoGPTWorldModel(WorldModel):
                 embeds=next_embeds[j:j + 1],
                 context_tokens=state.context_tokens,
                 frame=frames[j],
-                reward=None if rewards is None else float(rewards[j]),
                 depth=state.depth + 1,
             )
             for j in range(b)

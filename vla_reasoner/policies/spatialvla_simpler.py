@@ -1,16 +1,5 @@
-"""SpatialVLA in SimplerEnv with VLA-Reasoner (paper Table I, "SpatialVLA + VLA-Reasoner").
-
-Built on `SpatialVLAInference` of github.com/DelinQu/SimplerEnv-OpenVLA@ccfe380
-(simpler_env/policies/spatialvla/spatialvla_model.py), the evaluation code referenced by the SpatialVLA authors.
-Its `step()` predicts an action chunk, temporally ensembles it and post-processes one action. The paper instead
-executes 4-action chunks with SpatialVLA (Sec. IV-A), so this subclass splits `step()` into
-  (1) `_predict_chunk`: raw chunk prediction (copied from upstream `step()`),
-  (2) the reasoner on the flattened executed chunk,
-  (3) `_postprocess`: upstream post-processing (copied from upstream `step()`), applied per executed action.
-Temporal ensembling is disabled when exec_chunk > 1.
-
-Portions adapted from SimplerEnv-OpenVLA, Copyright (c) 2024 simpler-env, MIT License (see THIRD_PARTY_NOTICES.md).
-"""
+"""SpatialVLA in SimplerEnv with VLA-Reasoner."""
+# Portions adapted from SimplerEnv-OpenVLA (Copyright (c) 2024 simpler-env, MIT); see THIRD_PARTY_NOTICES.md.
 
 from __future__ import annotations
 

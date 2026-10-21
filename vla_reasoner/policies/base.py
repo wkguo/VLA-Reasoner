@@ -1,9 +1,4 @@
-"""Frozen VLA interface: a_t^VLA = pi_theta(s_t, l) (paper Sec. III-A). The VLA's weights are never updated.
-
-`predict` returns *raw* actions, i.e. the policy output before benchmark-specific post-processing (gripper
-binarization/inversion, Euler -> axis-angle, ...). The reasoner works in this raw space, which is also the space
-the KDE and the world model are fit in.
-"""
+"""Interface of a frozen VLA policy."""
 
 from __future__ import annotations
 

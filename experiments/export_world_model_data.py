@@ -1,19 +1,4 @@
-"""Step 3a: export trajectories for fine-tuning the iVideoGPT world model.
-
-The world model is fine-tuned on the VLA's fine-tuning dataset plus a small set of failure rollouts of the
-frozen VLA itself (paper Sec. III-D last paragraph, Sec. IV-A/B; real world: 10 failures per task). Collect the
-rollouts with `eval_libero.py` / `eval_simpler.py --save_rollouts_dir=...` (vanilla VLA) and pass that directory
-as --failure_path.
-
-Output: <output_dir>/<dataset_name>/{demo,fail}_XXXXXX.npz with keys image (T, R, R, 3) and action (T, D), the
-format read by iVideoGPT's SimpleRoboticDatasetv2. For chunked policies (--chunk_size H > 1) frames are kept at
-stride H and the executed chunk is packed into one action of size H * A, matching the reasoner's flattened
-actions (see vla_reasoner.data.pack_for_world_model).
-
-Example:
-    python experiments/export_world_model_data.py --data_format=libero_hdf5 --data_path=$LIBERO/libero_spatial \
-        --failure_path=rollouts/vanilla/libero_spatial --output_dir=data/wm/libero_spatial --resolution=64
-"""
+"""Exports demonstrations and failure rollouts in the format iVideoGPT fine-tuning expects."""
 
 import os
 from collections import defaultdict

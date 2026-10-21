@@ -1,10 +1,4 @@
-"""Image value model of Sec. III-D: frozen ImageNet-pretrained ResNet-34 encoder + 2-layer MLP (Eq. 7).
-
-    v_t = MLP(ResNet34(s_t)),   psi* = argmin_psi L_MSE(MLP_psi(s_t), v_t)
-
-Only the MLP head is trained. Checkpoints store the head and the preprocessing config; the encoder is re-created
-from torchvision's ImageNet weights at load time.
-"""
+"""Frozen ResNet-34 encoder with a 2-layer MLP value head."""
 
 from __future__ import annotations
 

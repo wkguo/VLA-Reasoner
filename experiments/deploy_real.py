@@ -1,15 +1,4 @@
-"""Real-world deployment with a robot-agnostic loop (paper Sec. IV-B, Table II). No hardware drivers included.
-
-Provide a class implementing `vla_reasoner.deploy.Robot` (see its docstring for the observation contract) and
-point --robot at it as "package.module:ClassName". Policies:
-  * pi0_fast: an openpi policy server (`uv run scripts/serve_policy.py ...` in the openpi repo); 5 actions of each
-    chunk are executed (paper setting).
-  * openvla:  OpenVLA loaded locally through HF transformers; 1 action per query.
-
-Example:
-    python experiments/deploy_real.py --robot=my_robot.galaxea:GalaxeaA1 --policy=pi0_fast --host=localhost \
-        --port=8000 --instruction="stack the green cup on the purple cup" --flagfile=experiments/configs/real_pi0fast.flags
-"""
+"""Runs a real-robot episode loop with a frozen VLA served by openpi or loaded locally, with or without VLA-Reasoner."""
 
 import importlib
 import json

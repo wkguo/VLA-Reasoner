@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Steps 1-3a (LIBERO): KDE action prior, image value function, world-model training data.
-# LIBERO_DATA: directory with one folder of hdf5 files per suite (official LIBERO datasets, or OpenVLA's
-# regenerated no-op-free hdf5 files; the loader filters no-ops either way).
+# Builds the KDE, value function and world-model data for each LIBERO suite (LIBERO_DATA has one folder per suite).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 LIBERO_DATA=${LIBERO_DATA:?set LIBERO_DATA to the folder containing libero_spatial/, libero_object/, ...}

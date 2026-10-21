@@ -1,3 +1,5 @@
+"""Tests for the tree search (Algorithm 1, Eqs. 4 and 5)."""
+
 import math
 
 import numpy as np

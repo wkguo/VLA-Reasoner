@@ -1,12 +1,4 @@
-"""pi0-FAST (or any openpi policy) queried over openpi's websocket protocol (real-world experiments, Table II).
-
-Serve the fine-tuned checkpoint with openpi's `scripts/serve_policy.py`; this client only needs the lightweight
-`openpi-client` package (Physical-Intelligence/openpi, packages/openpi-client; pinned to commit 215abfb in
-requirements/real_openpi.txt).
-The observation dict must use the keys of the served policy config (e.g. "observation/image",
-"observation/wrist_image", "observation/state"); the robot driver is responsible for building it.
-The paper executes 5 actions of each pi0-FAST chunk (Sec. IV-B).
-"""
+"""Client for a pi0-FAST policy served by openpi."""
 
 from __future__ import annotations
 

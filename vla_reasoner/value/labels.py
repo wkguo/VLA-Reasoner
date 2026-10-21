@@ -1,13 +1,4 @@
-"""Value labels from successful demonstrations (paper Sec. III-D).
-
-1. Down-sample each demo's image sequence so that consecutive kept frames differ enough (or, alternatively,
-   with a fixed stride). The first and the last frame are always kept.
-2. Assign labels by linear interpolation between 0 and 1 over the kept sequence: kept frame i of L
-   (0-based) gets i / (L - 1); in a 10-frame sequence, frame 5 gets 5/9 (the example of Sec. III-D).
-
-A frame is kept when its mean absolute grayscale difference (at low resolution) to the last kept frame is
-at least tau, so that consecutive kept frames contain sufficient variation. Only numpy is required.
-"""
+"""Progress labels and keyframe selection for successful demonstrations."""
 
 from __future__ import annotations
 

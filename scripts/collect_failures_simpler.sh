@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Step 0 (SimplerEnv): roll out the frozen Octo-Small / SpatialVLA to collect failure episodes for world-model
-# fine-tuning. The WidowX tasks have a finite set of initial configurations, so these rollouts share initial
-# configurations with the evaluation.
+# Rolls out the frozen Octo-Small or SpatialVLA (POLICY) to collect failure episodes for the world model.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 ROLLOUTS=${ROLLOUTS:-rollouts/vanilla}

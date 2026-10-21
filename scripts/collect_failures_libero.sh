@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Step 0 (LIBERO): roll out the frozen OpenVLA-SFT to collect failure episodes for world-model fine-tuning.
-# Uses random initial placements (--random_init_states) so that the benchmark's fixed test states are not used.
+# Rolls out the frozen OpenVLA-SFT from random initial placements to collect failure episodes for the world model.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 ROLLOUTS=${ROLLOUTS:-rollouts/vanilla}

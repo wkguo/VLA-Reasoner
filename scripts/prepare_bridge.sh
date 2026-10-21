@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Steps 1-3a (SimplerEnv WidowX): KDE / value / world-model data from BridgeData V2 (RLDS release).
-# Octo outputs actions in octo's Bridge convention (1 action per query); SpatialVLA in OpenVLA's
-# "bridge_orig" convention with 4-action chunks.
+# Builds the KDE, value function and world-model data for the WidowX tasks from BridgeData V2.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 BRIDGE=${BRIDGE:?set BRIDGE to the TFDS directory containing bridge_dataset/1.0.0}

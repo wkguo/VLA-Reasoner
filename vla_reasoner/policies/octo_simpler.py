@@ -1,12 +1,4 @@
-"""Octo in SimplerEnv with VLA-Reasoner (paper Table I, "Octo-Small + VLA-Reasoner").
-
-Built on `OctoInference` of the SimplerEnv fork used by V-GPS (github.com/nakamotoo/SimplerEnv@f343c82,
-simpler_env/policies/octo/octo_model.py). In that file `step()` calls `get_action(image)`, which returns the
-raw action dict (un-normalized, after Octo's temporal action ensembling), and then post-processes it
-(Euler -> axis-angle, sticky gripper). We override only `get_action`: the reasoner edits the raw 7-d action
-[world_vector(3), rotation_delta(3), open_gripper(1)] and the original post-processing in `step()` is reused.
-Octo executes one action per step (Sec. IV-A).
-"""
+"""Octo in SimplerEnv with VLA-Reasoner."""
 
 from __future__ import annotations
 

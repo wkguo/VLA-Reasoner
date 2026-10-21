@@ -1,4 +1,4 @@
-"""Dataset loaders. Heavy readers (h5py, tensorflow_datasets) are imported inside the loader functions."""
+"""Dataset loaders and the episode container."""
 
 from typing import Iterator
 

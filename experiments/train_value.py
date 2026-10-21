@@ -1,13 +1,4 @@
-"""Step 2: train the image value function (paper Sec. III-D, Eq. 7).
-
-Successful demonstrations are down-sampled (visual-change criterion or fixed stride), kept frames get linear
-progress labels i / (L - 1), and a 2-layer MLP on top of a frozen ImageNet ResNet-34 is fit with MSE. Frames
-should come from the camera the world model predicts (e.g. LIBERO agentview, Bridge image_0).
-
-Example:
-    python experiments/train_value.py --data_format=libero_hdf5 --data_path=$LIBERO/libero_spatial \
-        --output=checkpoints/libero_spatial/value.pt
-"""
+"""Trains the progress value function (frozen ResNet-34 + MLP) on successful demonstrations."""
 
 import json
 import os

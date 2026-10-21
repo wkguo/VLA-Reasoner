@@ -1,14 +1,4 @@
-"""VLA-Reasoner wrapper: propose (frozen VLA) -> search (MCTS in a world model) -> inject (Eq. 1).
-
-    a_t = alpha * a_t^VLA + (1 - alpha) * a_t^Reasoner          (Eq. 1, Alg. 1 line 13; default alpha = 0.6)
-
-The search only queries the world model; the real environment is never stepped by it. Search is run
-"sparsely over VLA generations" (Sec. III-B): every `search_interval`-th VLA query; on the other queries the
-VLA action is executed unchanged. For chunked policies, the executed part of the chunk (exec_chunk x A) is
-flattened and treated as a single action, matching how the KDE is fit (Sec. III-C).
-
-Only numpy is required.
-"""
+"""VLA-Reasoner wrapper: propose with the frozen VLA, search, and inject the result (Eq. 1)."""
 
 from __future__ import annotations
 

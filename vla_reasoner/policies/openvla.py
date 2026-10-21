@@ -1,14 +1,5 @@
-"""OpenVLA (Kim et al., 2024) as the frozen VLA: LIBERO (OpenVLA-SFT) and real-world experiments.
-
-Loading, prompt and the optional center crop mirror openvla/openvla@c8f03f4
-experiments/robot/openvla_utils.py (`get_vla`, `get_processor`, `crop_and_resize`, `get_vla_action`), but the
-model is loaded through HF `trust_remote_code` so the openvla repository itself is not imported.
-`predict` returns the un-normalized 7-d action *before* `normalize_gripper_action` / `invert_gripper_action`
-(LIBERO post-processing is done by the evaluation script). OpenVLA executes one action per step.
-
-Portions adapted from OpenVLA, Copyright (c) 2024 Moo Jin Kim, Karl Pertsch, Siddharth Karamcheti, MIT License
-(see THIRD_PARTY_NOTICES.md).
-"""
+"""OpenVLA as the frozen VLA."""
+# Portions adapted from OpenVLA (Copyright (c) 2024 Moo Jin Kim, Karl Pertsch, Siddharth Karamcheti, MIT); see THIRD_PARTY_NOTICES.md.
 
 from __future__ import annotations
 

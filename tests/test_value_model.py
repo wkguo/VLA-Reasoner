@@ -1,3 +1,5 @@
+"""Tests for the ResNet-34 value model."""
+
 import numpy as np
 import pytest
 

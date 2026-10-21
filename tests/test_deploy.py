@@ -1,3 +1,5 @@
+"""Tests for the real-robot deployment loop."""
+
 import numpy as np
 
 from vla_reasoner.deploy import Robot, run_episode

@@ -1,11 +1,4 @@
-"""Generic episode container, the npz episode format, and action-chunk helpers. numpy only.
-
-npz episode format (one file per episode; also the format iVideoGPT's `SimpleRoboticDatasetv2` reads):
-    image       (T, H, W, 3) uint8    observation at step t (primary camera)
-    action      (T, A)       float32  action taken at step t, in the VLA's raw (pre-post-processing) space
-    instruction ()           str      language instruction (optional)
-    success     ()           bool     whether the episode succeeded (optional, default True)
-"""
+"""Episode container and npz serialization."""
 
 from __future__ import annotations
 

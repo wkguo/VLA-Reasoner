@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-# Real robot (Table II): pi0-FAST served by openpi, with VLA-Reasoner. Start the policy server first, e.g. in
-# the openpi repo:  uv run scripts/serve_policy.py policy:checkpoint --policy.config=<your pi0_fast config> \
-#                     --policy.dir=<your fine-tuned checkpoint>
-# ROBOT must point to your implementation of vla_reasoner.deploy.Robot ("package.module:Class").
+# Real-robot episodes with pi0-FAST served by openpi (ROBOT = "package.module:Class" implementing vla_reasoner.deploy.Robot).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 ROBOT=${ROBOT:?package.module:Class of your robot driver}

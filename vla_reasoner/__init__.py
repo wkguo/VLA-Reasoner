@@ -1,9 +1,4 @@
-"""VLA-Reasoner: test-time online MCTS for frozen Vision-Language-Action models.
-
-The core (KDE prior, MCTS, reasoner wrapper) depends only on numpy. torch, simulators and model code are
-imported lazily inside the adapters under `vla_reasoner.value`, `vla_reasoner.world_model` and
-`vla_reasoner.policies`.
-"""
+"""VLA-Reasoner: test-time Monte Carlo tree search for frozen vision-language-action models."""
 
 from vla_reasoner.kde import ActionKDE
 from vla_reasoner.mcts import MCTS, Node, SearchResult

@@ -1,3 +1,5 @@
+"""Tests for progress labels and keyframe selection."""
+
 import numpy as np
 import pytest
 

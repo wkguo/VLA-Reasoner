@@ -1,3 +1,5 @@
+"""Tests for the propose-search-inject wrapper."""
+
 import numpy as np
 import pytest
 

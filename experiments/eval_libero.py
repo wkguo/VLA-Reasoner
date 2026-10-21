@@ -1,26 +1,5 @@
-"""LIBERO evaluation of OpenVLA-SFT with and without VLA-Reasoner (paper Table I top, Fig. 5, Fig. 6).
-
-Follows openvla/openvla@c8f03f4 experiments/robot/libero/run_libero_eval.py: same task-suite loop over the
-fixed initial states (50 per task -> 500 episodes per suite), 10 wait steps, per-suite step limits, image
-preprocessing (180 deg rotation, JPEG round trip, lanczos resize to 224), gripper post-processing
-(normalize to [-1, 1], binarize, invert) and logging / replay videos. The reasoner edits the raw OpenVLA action
-before that post-processing; its world-model frame is the rotated full-resolution agentview image.
-
-Examples:
-    # OpenVLA-SFT + VLA-Reasoner
-    python experiments/eval_libero.py --flagfile=experiments/configs/libero_openvla.flags \
-        --task_suite_name=libero_spatial --use_reasoner --alpha=0.6 \
-        --kde_path=checkpoints/libero_spatial/kde.npz --value_path=checkpoints/libero_spatial/value.pt \
-        --ivideogpt_root=$IVG --wm_tokenizer=... --wm_transformer=... --wm_config=$IVG/configs/llama/config_medium.json
-    # failure rollouts of the vanilla VLA, written to rollouts/vanilla/libero_spatial and passed to
-    # export_world_model_data.py as --failure_path=rollouts/vanilla/libero_spatial
-    python experiments/eval_libero.py --flagfile=experiments/configs/libero_openvla.flags \
-        --task_suite_name=libero_spatial --random_init_states --num_trials_per_task=20 \
-        --save_videos=false --save_rollouts_dir=rollouts/vanilla
-
-Portions adapted from OpenVLA, Copyright (c) 2024 Moo Jin Kim, Karl Pertsch, Siddharth Karamcheti, MIT License
-(see THIRD_PARTY_NOTICES.md).
-"""
+"""LIBERO evaluation of OpenVLA-SFT with and without VLA-Reasoner."""
+# Portions adapted from OpenVLA (Copyright (c) 2024 Moo Jin Kim, Karl Pertsch, Siddharth Karamcheti, MIT); see THIRD_PARTY_NOTICES.md.
 
 import os
 import random
@@ -138,18 +117,13 @@ def main(_):
 
     log(f"Task suite: {suite} | checkpoint: {checkpoint} | {common.reasoner_tag()}")
     task_suite = benchmark.get_benchmark_dict()[suite]()
-    reasoner = None if FLAGS.world_model == "oracle_debug" else common.build_reasoner(flat_action_dim=7)
+    reasoner = common.build_reasoner(flat_action_dim=7)
 
     total_episodes, total_successes = 0, 0
     for task_id in range(task_suite.n_tasks):
         task = task_suite.get_task(task_id)
         initial_states = task_suite.get_task_init_states(task_id)
         env, task_description = get_libero_env(task, resolution=256)
-        if FLAGS.world_model == "oracle_debug":  # DEBUG ONLY: re-created per task because it wraps this env
-            from vla_reasoner.world_model.oracle import libero_oracle
-
-            reasoner = common.build_reasoner(
-                flat_action_dim=7, oracle_factory=lambda: libero_oracle(env, to_env_action, rotated_agentview))
 
         task_episodes, task_successes = 0, 0
         for episode_idx in range(FLAGS.num_trials_per_task):

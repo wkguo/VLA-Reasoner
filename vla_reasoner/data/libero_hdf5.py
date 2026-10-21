@@ -1,21 +1,5 @@
-"""LIBERO demonstrations from the official hdf5 files (or OpenVLA's regenerated no-op-free hdf5 files).
-
-Layout: data/demo_<i>/{actions (T, 7), obs/agentview_rgb (T, H, W, 3), ...}; one file per task.
-
-Action conventions:
-  * "openvla": the space OpenVLA fine-tuned on LIBERO outputs (before `normalize_gripper_action` /
-    `invert_gripper_action` in run_libero_eval.py). OpenVLA's `libero_dataset_transform` maps the raw gripper
-    action (-1 = open, +1 = close) to 1 - clip(g, 0, 1) (1 = open, 0 = close); arm dims are unchanged.
-    Source: openvla/openvla@c8f03f4 prismatic/vla/datasets/rlds/oxe/transforms.py.
-  * "raw": the hdf5 actions as stored (e.g. for policies trained on raw LIBERO actions).
-
-Images: LIBERO renders upside down; `flip=True` rotates by 180 degrees like OpenVLA's `get_libero_image`.
-No-op filtering follows OpenVLA's `regenerate_libero_dataset.py` (`is_noop`, threshold 1e-4). Unlike that
-script, we do not re-render or replay demos in simulation.
-
-Portions adapted from OpenVLA, Copyright (c) 2024 Moo Jin Kim, Karl Pertsch, Siddharth Karamcheti, MIT License
-(see THIRD_PARTY_NOTICES.md).
-"""
+"""LIBERO hdf5 demonstrations as episodes in OpenVLA's action convention."""
+# Portions adapted from OpenVLA (Copyright (c) 2024 Moo Jin Kim, Karl Pertsch, Siddharth Karamcheti, MIT); see THIRD_PARTY_NOTICES.md.
 
 from __future__ import annotations
 

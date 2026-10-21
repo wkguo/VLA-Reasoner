@@ -1,4 +1,4 @@
-"""The core (KDE, MCTS, reasoner, interfaces, data, policies' base) must import without heavy dependencies."""
+"""The core package imports without heavy dependencies."""
 
 import os
 import subprocess
@@ -12,7 +12,7 @@ HEAVY = ["torch", "torchvision", "tensorflow", "jax", "transformers", "h5py", "s
 CODE = f"""
 import sys
 import vla_reasoner, vla_reasoner.kde, vla_reasoner.mcts, vla_reasoner.reasoner, vla_reasoner.sampling
-import vla_reasoner.value, vla_reasoner.world_model, vla_reasoner.world_model.oracle, vla_reasoner.data
+import vla_reasoner.value, vla_reasoner.world_model, vla_reasoner.data
 import vla_reasoner.policies, vla_reasoner.deploy
 loaded = [m for m in {HEAVY!r} if m in sys.modules]
 assert not loaded, loaded

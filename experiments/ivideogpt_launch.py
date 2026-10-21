@@ -1,15 +1,4 @@
-"""Step 3b: run the official iVideoGPT training scripts on data written by export_world_model_data.py.
-
-iVideoGPT looks datasets up in `DATASET_NAMED_MIXES`; this launcher registers `--dataset_name` as a one-dataset
-mix and then executes the unmodified upstream script (train_tokenizer.py or train_gpt.py) as __main__. It
-changes into the iVideoGPT directory first (upstream copies its working directory into the run folder), so the
-path arguments listed in PATH_ARGS are made absolute beforehand. `--config_name` is passed through unchanged:
-train_gpt.py reads the model type from its second path component (configs/<gpt2|llama>/...), so give it relative
-to the iVideoGPT directory, e.g. `--config_name configs/llama/config_medium.json`.
-
-    accelerate launch experiments/ivideogpt_launch.py --ivideogpt_root=$IVG --script=train_gpt.py \
-        --dataset_name=vla_reasoner -- <upstream arguments>
-"""
+"""Runs iVideoGPT's training scripts from its own directory on a dataset exported by export_world_model_data.py."""
 
 import argparse
 import os

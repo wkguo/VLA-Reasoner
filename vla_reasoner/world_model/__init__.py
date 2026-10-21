@@ -1,4 +1,4 @@
-"""World models. Only the numpy-only base class is imported eagerly; adapters import torch lazily."""
+"""World models."""
 
 from vla_reasoner.world_model.base import WorldModel
 

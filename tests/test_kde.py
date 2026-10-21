@@ -1,3 +1,5 @@
+"""Tests for the KDE action prior."""
+
 import math
 
 import numpy as np

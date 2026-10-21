@@ -1,9 +1,4 @@
-"""Abstract action-conditioned world model W (paper Sec. III-A and Eq. 3: s_{i+1} = W(a_i, s_i)).
-
-States are opaque to the tree search. For image-based value functions, a state must expose the
-predicted frame as an attribute `frame` (H, W, 3) uint8 (see `vla_reasoner.value.base.frame_of`).
-This module depends only on numpy.
-"""
+"""World-model interface used by the tree search."""
 
 from __future__ import annotations
 

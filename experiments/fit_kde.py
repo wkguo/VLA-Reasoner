@@ -1,13 +1,4 @@
-"""Step 1: fit the KDE action prior pi_KDE (paper Sec. III-C, Eq. 6) on the VLA's fine-tuning dataset.
-
-Actions are converted to the VLA's raw output space by the loader (--action_convention). For chunked policies,
-every length-`chunk_size` window (stride 1) is flattened into one sample; `chunk_size` must equal the number of
-actions the VLA executes per query (OpenVLA / Octo 1, SpatialVLA 4, pi0-FAST 5).
-
-Example:
-    python experiments/fit_kde.py --data_format=libero_hdf5 --data_path=$LIBERO/libero_spatial \
-        --chunk_size=1 --output=checkpoints/libero_spatial/kde.npz
-"""
+"""Fits the KDE action prior on the actions of a demonstration dataset."""
 
 import os
 
